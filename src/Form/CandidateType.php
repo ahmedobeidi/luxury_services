@@ -29,7 +29,14 @@ class CandidateType extends AbstractType
                 ],
                 'label' => 'First name',
             ])
-
+            ->add('lastName', TextType::class, [
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                    'id' => 'last_name'
+                ],
+                'label' => 'Last name'
+            ])
             ->add('gender', EntityType::class, [
                 'class' => Gender::class,
                 'choice_label' => 'name',
@@ -42,6 +49,29 @@ class CandidateType extends AbstractType
                     'class' => 'active',
                 ],
                 'placeholder' => 'Choose an option...',
+            ])
+            ->add("currentLocation", TextType::class, [
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                    'id' => 'current_location'
+                ],
+                'label' => 'Current location'
+            ])
+            ->add('address', TextType::class, [
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                    'id' => 'address'
+                ],
+                'label' => 'Address' 
+            ])
+            ->add('country', TextType::class, [
+                'required' => false,
+                'attr' => [
+                    'id' => 'country'
+                ],
+                'label' => 'Country'
             ])
             ->add('profilePictureFile', FileType::class,[
                 'mapped' => false,
@@ -63,8 +93,6 @@ class CandidateType extends AbstractType
                 ]
             ])
             ->addEventListener(FormEvents::POST_SUBMIT, $this->setUpdatedAt(...))
-
-
         ;
     }
 
