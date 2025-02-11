@@ -40,19 +40,32 @@ final class ProfileController extends AbstractController
         $formCandidate->handleRequest($request);
 
         if($formCandidate->isSubmitted() && $formCandidate->isValid()){
-            // dd($candidate);
+
             $profilPictureFile = $formCandidate->get('profilePictureFile')->getData();
-            // dd($profilPictureFile);
+            $passportFile = $formCandidate->get("passportFile")->getData();
+            $cvFile = $formCandidate->get("cvFile")->getData();
 
             if($profilPictureFile){
                 $profilPictureName = $fileUploader->upload($profilPictureFile, $candidate, 'profilePicture', 'profile_pictures');
                 $candidate->setProfilePicture($profilPictureName);
             }
 
+            if($passportFile){
+                $passportName = $fileUploader->upload($passportFile, $candidate, 'passportFile', 'passport_pictures');
+                $candidate->setPassportFile($passportName);
+            }
+
+            if($cvFile){
+                $cvName = $fileUploader->upload($cvFile, $candidate, 'cvFile', 'cv_pictures');
+                $candidate->setCvFile($cvName);
+            }
+
             $entityManager->persist($candidate);
             $entityManager->flush();
 
             $this->addFlash('success', 'Profile updated successfully');
+
+            return $this->redirectToRoute('app_profile');
         }
 
 

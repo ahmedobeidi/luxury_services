@@ -3,7 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Candidate;
+use App\Entity\Experience;
 use App\Entity\Gender;
+use App\Entity\JobCategory;
 use App\Entity\User;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\DateImmutableType;
@@ -163,6 +165,45 @@ class CandidateType extends AbstractType
                         ],
                         'mimeTypesMessage' => 'Please upload a valid PDF document',
                     ])
+                ],
+            ])
+            ->add('jobCategory', EntityType::class, [
+                'class' => JobCategory::class,
+                'choice_label' => 'name',
+                'required' => false,
+                'placeholder' => 'Choose an option...',
+                'label' => 'Interest in job sector',
+                'attr' => [
+                    'id' => 'job_sector',
+                    'data-placeholder' => 'Type in or Select job sector you would be interested in.',
+                ],
+                'label_attr' => [
+                    'class' => 'active',
+                ],
+            ])
+            ->add('experience', EntityType::class, [
+                'class' => Experience::class,
+                'choice_label' => 'name',
+                'required' => false,
+                'placeholder' => 'Choose',
+                'label' => 'Experience',
+                'attr' => [
+                    'id' => 'experience',
+                ],
+                'label_attr' => [
+                    'class' => 'active',
+                ],
+            ])
+            // <textarea class="materialize-textarea" id="description" name="description" cols="50" rows="10"></textarea>
+			// 				<label for="description">Short description for your profile, as well as more personnal informations (e.g. your hobbies/interests ). You can also paste any link you want.</label>
+            ->add('description', TextType::class, [
+                'required' => false,
+                'label' => 'Short description for your profile, as well as more personnal informations (e.g. your hobbies/interests ). You can also paste any link you want.',
+                'attr' => [
+                    'id' => 'description',
+                    'class' => 'materialize-textarea',
+                    'cols' => 50,
+                    'rows' => 10,
                 ],
             ])
             ->addEventListener(FormEvents::POST_SUBMIT, $this->setUpdatedAt(...))
