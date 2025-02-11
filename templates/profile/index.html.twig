@@ -139,16 +139,15 @@
 								{{ form_errors(form.profilePictureFile) }}
 							</div>
 								
-							<img src="{{ asset('uploads/profile_pictures/' ~ candidate.profilePicture ) }}" alt="">
-
+							{# <img src="{{ asset('uploads/profile_pictures/' ~ candidate.profilePicture ) }}" alt=""> #}
+							
+							{% if candidate.profilePicture %}
 							<div class="existing-file">
 								<a href="#!" target="_blank">
 									<i class="material-icons">&#xE24D;</i>
-									profil_picture.jpg</a>
+									{{ candidate.profilePicture }}</a>
 							</div>
-							<div class="file-path-wrapper">
-								<input class="file-path validate" type="text" placeholder="Upload your ID photo" readonly>
-							</div>
+							{% endif %}
 						</div>
 					</div>
 

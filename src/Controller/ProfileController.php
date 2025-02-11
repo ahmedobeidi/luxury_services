@@ -55,13 +55,10 @@ final class ProfileController extends AbstractController
             $this->addFlash('success', 'Profile updated successfully');
         }
 
-        
-
 
         return $this->render('profile/index.html.twig', [
             'form' => $formCandidate->createView(),
             'candidate' => $candidate,
-        
         ]);
     }
 }
