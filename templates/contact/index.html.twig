@@ -1,5 +1,10 @@
 {% extends 'base.html.twig' %}
 
+{% block styleCustom %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+{% endblock %}
+
 {% block body %}
 
 	<!-- Page Header-->
@@ -123,6 +128,20 @@
 		</section>
 	{# </form> #}
 	{{ form_end(form) }}
-	<div id="myMap" class="height-350">Gmap here</div>
+	<div id="map" style="height: 350px;">
+		<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			var map = L.map('map').setView([45.4378103, 4.381062], 15); // Zoom niveau 15
+
+			L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+				attribution: '© OpenStreetMap contributors'
+			}).addTo(map);
+
+			L.marker([45.4378103, 4.381062]).addTo(map)
+				.bindPopup('We Are Here!')
+				.openPopup();
+		});
+		</script>
+	</div>
 
 {% endblock %}

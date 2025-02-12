@@ -6,6 +6,8 @@ use App\Entity\Candidate;
 use App\Entity\Experience;
 use App\Entity\Gender;
 use App\Entity\JobCategory;
+use App\Entity\JobOffer;
+use App\Entity\Recruiter;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -56,13 +58,13 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::section('Users');
         yield MenuItem::linkToCrud('users', 'fas fa-user-tie', User::class);
-
-        yield MenuItem::section('Candidates');
         yield MenuItem::linkToCrud('Candidates', 'fas fa-user-tie', Candidate::class);
+        yield MenuItem::linkToCrud('Recruiters', 'fas fa-user-tie', Recruiter::class);
 
 
         yield MenuItem::section('Jobs');
         yield MenuItem::linkToCrud('Categories', 'fas fa-user-tie', JobCategory::class);
+        yield MenuItem::linkToCrud('Offers', 'fas fa-user-tie', JobOffer::class);
         
         
     }
