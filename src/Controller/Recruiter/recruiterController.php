@@ -1,12 +1,7 @@
 <?php
 
-namespace App\Controller\Admin;
+namespace App\Controller\Recruiter;
 
-use App\Entity\Candidate;
-use App\Entity\Experience;
-use App\Entity\Gender;
-use App\Entity\JobCategory;
-use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -15,12 +10,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[AdminDashboard(routePath: '/admin', routeName: 'admin')]
-class DashboardController extends AbstractDashboardController
+class recruiterController extends AbstractDashboardController
 {
-    #[Route('/admin')]
+    #[Route('/recruiter')]
     public function index(): Response
-    {   
-        // return parent::index();
+    {
+    
 
         // Option 1. You can make your dashboard redirect to some common page of your backend
         //
@@ -40,30 +35,18 @@ class DashboardController extends AbstractDashboardController
         // Option 3. You can render some custom template to display a proper dashboard with widgets, etc.
         // (tip: it's easier if your template extends from @EasyAdmin/page/content.html.twig)
         //
-        return $this->render('admin/dashboard.html.twig');
+        return $this->render('recruiter/recruiter.html.twig');
     }
 
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('Luxury Services')
-            ->setFaviconPath('img/luxury-services-logo.png');
+            ->setTitle('Luxury Services');
     }
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-tachometer-alt');
-
-        yield MenuItem::section('Users');
-        yield MenuItem::linkToCrud('users', 'fas fa-user-tie', User::class);
-
-        yield MenuItem::section('Candidates');
-        yield MenuItem::linkToCrud('Candidates', 'fas fa-user-tie', Candidate::class);
-
-
-        yield MenuItem::section('Jobs');
-        yield MenuItem::linkToCrud('Categories', 'fas fa-user-tie', JobCategory::class);
-        
-        
+        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
+        // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
     }
 }
