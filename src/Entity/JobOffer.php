@@ -31,6 +31,9 @@ class JobOffer
     #[ORM\Column]
     private ?\DateTimeImmutable $closedAt = null;
 
+    #[ORM\ManyToOne(inversedBy: 'jobOffer')]
+    private ?Recruiter $recruiter = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -104,6 +107,18 @@ class JobOffer
     public function setClosedAt(\DateTimeImmutable $closedAt): static
     {
         $this->closedAt = $closedAt;
+
+        return $this;
+    }
+
+    public function getRecruiter(): ?Recruiter
+    {
+        return $this->recruiter;
+    }
+
+    public function setRecruiter(?Recruiter $recruiter): static
+    {
+        $this->recruiter = $recruiter;
 
         return $this;
     }

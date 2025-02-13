@@ -3,6 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\RecruiterRepository;
+use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RecruiterRepository::class)]
@@ -13,55 +16,101 @@ class Recruiter
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $company = null;
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
+    /**
+     * @var Collection<int, JobOffer>
+     */
+    #[ORM\OneToMany(targetEntity: JobOffer::class, mappedBy: 'recruiter')]
+    private Collection $jobOffer;
 
     #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    private ?string $companyName = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $email = null;
+    private ?string $contactName = null;
 
     #[ORM\Column(length: 255)]
     private ?string $phone = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    public function __construct()
+    {
+        $this->jobOffer = new ArrayCollection();
+        $this->createdAt = new DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getCompany(): ?string
+    public function getUser(): ?User
     {
-        return $this->company;
+        return $this->user;
     }
 
-    public function setCompany(?string $company): static
+    public function setUser(User $user): static
     {
-        $this->company = $company;
+        $this->user = $user;
 
         return $this;
     }
 
-    public function getName(): ?string
+    /**
+     * @return Collection<int, JobOffer>
+     */
+    public function getJobOffer(): Collection
     {
-        return $this->name;
+        return $this->jobOffer;
     }
 
-    public function setName(string $name): static
+    public function addJobOffer(JobOffer $jobOffer): static
     {
-        $this->name = $name;
+        if (!$this->jobOffer->contains($jobOffer)) {
+            $this->jobOffer->add($jobOffer);
+            $jobOffer->setRecruiter($this);
+        }
 
         return $this;
     }
 
-    public function getEmail(): ?string
+    public function removeJobOffer(JobOffer $jobOffer): static
     {
-        return $this->email;
+        if ($this->jobOffer->removeElement($jobOffer)) {
+            // set the owning side to null (unless already changed)
+            if ($jobOffer->getRecruiter() === $this) {
+                $jobOffer->setRecruiter(null);
+            }
+        }
+
+        return $this;
     }
 
-    public function setEmail(string $email): static
+    public function getCompanyName(): ?string
     {
-        $this->email = $email;
+        return $this->companyName;
+    }
+
+    public function setCompanyName(string $companyName): static
+    {
+        $this->companyName = $companyName;
+
+        return $this;
+    }
+
+    public function getContactName(): ?string
+    {
+        return $this->contactName;
+    }
+
+    public function setContactName(string $contactName): static
+    {
+        $this->contactName = $contactName;
 
         return $this;
     }
@@ -74,6 +123,18 @@ class Recruiter
     public function setPhone(string $phone): static
     {
         $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }
