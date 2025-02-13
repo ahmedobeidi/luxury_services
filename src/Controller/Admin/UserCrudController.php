@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Recruiter;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -61,10 +62,23 @@ class UserCrudController extends AbstractCrudController
     public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
         // hacher le mot de passe
-        dd($entityInstance);
+        $hashedPassword = $this->userPasswordHasher->hashPassword($entityInstance, $entityInstance->getPassword());
+        $entityInstance->setPassword($hashedPassword);
+        if (in_array('ROLE_RECRUITER', $entityInstance->getRoles())) {
+            $recruiter = new Recruiter();
+            $recruiter->setUser($entityInstance);
+            $entityManager->persist($recruiter);
+        }
+        // If User.roles contains ROLE_RECRUITER {
+            // $recruiter = new Recruiter;
+            // creates a new Recruiter entity with nothing in it
+            // $recruiter->setUser($entityInstance)
+            // $entityManager->persist($recruiter)
+    //}
 
         $entityManager->persist($entityInstance);
         $entityManager->flush();
+
     }
 
 }

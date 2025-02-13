@@ -24,7 +24,6 @@ class RecruiterCrudController extends AbstractCrudController
             TextField::new('companyName'),
             TextField::new('contactName'),
             TextField::new('phone'),
-            AssociationField::new('user')->autocomplete(),
         ];
     }
 }
