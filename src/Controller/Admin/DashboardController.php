@@ -66,6 +66,10 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Categories', 'fas fa-user-tie', JobCategory::class);
         yield MenuItem::linkToCrud('Offers', 'fas fa-user-tie', JobOffer::class);
         
-        
+        yield MenuItem::section('Genders');
+        yield MenuItem::linkToCrud('Genders', 'fas fa-user-tie', Gender::class);
+
+        yield MenuItem::section('Experience');
+        yield MenuItem::linkToCrud('Experience', 'fas fa-user-tie', Experience::class);
     }
 }

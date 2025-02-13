@@ -32,7 +32,7 @@ class UserCrudController extends AbstractCrudController
                 ])
                 ->allowMultipleChoices(),
                 BooleanField::new('isVerified'),
-            ];
-        }
+        ];
+    }
 
 }
