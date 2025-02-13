@@ -16,10 +16,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[AdminDashboard(routePath: '/admin', routeName: 'admin')]
+#[AdminDashboard(routePath: '/admin', routeName: 'app_admin')]
 class DashboardController extends AbstractDashboardController
 {
-    #[Route('/admin')]
+    #[Route('/admin', name: 'app_admin')]
     public function index(): Response
     {   
         // return parent::index();

@@ -9,10 +9,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[AdminDashboard(routePath: '/admin', routeName: 'admin')]
+#[AdminDashboard(routePath: '/recruiter', routeName: 'app_recruiter')]
 class recruiterController extends AbstractDashboardController
 {
-    #[Route('/recruiter')]
+    #[Route('/recruiter', name: 'app_recruiter')]
     public function index(): Response
     {
     
