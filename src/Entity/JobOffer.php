@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\JobOfferRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: JobOfferRepository::class)]
@@ -33,6 +34,14 @@ class JobOffer
 
     #[ORM\ManyToOne(inversedBy: 'jobOffer')]
     private ?Recruiter $recruiter = null;
+
+    #[ORM\Column]
+    private ?bool $status = true;
+
+    public function __construct()
+    {
+        $this->createdAt = new DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
@@ -119,6 +128,18 @@ class JobOffer
     public function setRecruiter(?Recruiter $recruiter): static
     {
         $this->recruiter = $recruiter;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): static
+    {
+        $this->status = $status;
 
         return $this;
     }
