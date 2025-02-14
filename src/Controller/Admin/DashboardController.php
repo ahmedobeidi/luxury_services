@@ -58,8 +58,8 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::section('Users');
         yield MenuItem::linkToCrud('users', 'fas fa-user-tie', User::class);
-        yield MenuItem::linkToCrud('Candidates', 'fas fa-user-tie', Candidate::class);
-        yield MenuItem::linkToCrud('Recruiters', 'fas fa-user-tie', Recruiter::class);
+        // yield MenuItem::linkToCrud('Candidates', 'fas fa-user-tie', Candidate::class);
+        // yield MenuItem::linkToCrud('Recruiters', 'fas fa-user-tie', Recruiter::class);
 
 
         yield MenuItem::section('Jobs');
