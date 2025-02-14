@@ -21,24 +21,33 @@ class JobOfferCrudController extends AbstractCrudController
     {
         return [
             TextField::new('title'),
-            TextField::new('companyName'),
-            TextField::new('conatactEmail'),
             TextField::new('contactPhone'),
         ];
     }
     
 
     public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
-    {
+    { 
+        /** @var User */
+        $user = $this->getUser();
 
-        // $user = $this->getUser();
-        // $email =  $user->getEmail();
-        // // dd($user);
-        // $recruiter = $entityManager->getRepository(\App\Entity\Recruiter::class)->findOneBy(['user' => $user]);
-        // $entityInstance->setRecruiter($recruiter);
-        // dd($entityInstance);
+        /** @var Recruiter */
+        $recruiter = $user->getRecruiter(); 
+        
+        $recruiter->setCompanyName('Garage404');
+        $entityInstance->setCompanyName($recruiter->getCompanyName());
 
-        // $entityManager->persist($entityInstance);
-        // $entityManager->flush();
+        $recruiter->setCompanyEmail($user->getEmail());
+        $entityInstance->setContactEmail($recruiter->getCompanyEmail());
+
+        
+        $recruiter->setContactName('Jérémy');
+        $entityInstance->setContactName($recruiter->getContactName());
+        
+        $entityInstance->setRecruiter($recruiter);
+        dd($entityInstance);
+
+        $entityManager->persist($entityInstance);
+        $entityManager->flush();
     }
 }

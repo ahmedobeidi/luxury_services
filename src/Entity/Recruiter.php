@@ -16,7 +16,7 @@ class Recruiter
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne()]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
@@ -138,4 +138,5 @@ class Recruiter
 
         return $this;
     }
+
 }

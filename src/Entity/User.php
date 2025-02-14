@@ -39,6 +39,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?Candidate $candidate = null;
 
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?Recruiter $recruiter = null;
+
     public function __toString()
     {
         return $this->email;
@@ -144,6 +147,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         $this->candidate = $candidate;
+
+        return $this;
+    }
+
+    public function getRecruiter(): ?Recruiter
+    {
+        return $this->recruiter;
+    }
+
+    public function setRecruiter(Recruiter $recruiter): static
+    {
+        // set the owning side of the relation if necessary
+        if ($recruiter->getUser() !== $this) {
+            $recruiter->setUser($this);
+        }
+
+        $this->candidate = $recruiter;
 
         return $this;
     }

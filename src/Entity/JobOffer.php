@@ -21,7 +21,7 @@ class JobOffer
     private ?string $companyName = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $conatactEmail = null;
+    private ?string $contactEmail = null;
 
     #[ORM\Column(length: 255)]
     private ?string $contactPhone = null;
@@ -37,6 +37,9 @@ class JobOffer
 
     #[ORM\Column]
     private ?bool $status = true;
+
+    #[ORM\Column(length: 255)]
+    private ?string $contactName = null;
 
     public function __construct()
     {
@@ -72,14 +75,14 @@ class JobOffer
         return $this;
     }
 
-    public function getConatactEmail(): ?string
+    public function getContactEmail(): ?string
     {
-        return $this->conatactEmail;
+        return $this->contactEmail;
     }
 
-    public function setConatactEmail(string $conatactEmail): static
+    public function setContactEmail(string $contactEmail): static
     {
-        $this->conatactEmail = $conatactEmail;
+        $this->contactEmail = $contactEmail;
 
         return $this;
     }
@@ -140,6 +143,18 @@ class JobOffer
     public function setStatus(bool $status): static
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getContactName(): ?string
+    {
+        return $this->contactName;
+    }
+
+    public function setContactName(string $contactName): static
+    {
+        $this->contactName = $contactName;
 
         return $this;
     }
