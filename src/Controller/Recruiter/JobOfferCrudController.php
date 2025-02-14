@@ -24,6 +24,7 @@ class JobOfferCrudController extends AbstractCrudController
         return [
             TextField::new('title'),
             TextareaField::new('description'),
+            AssociationField::new('category'),
             // TextField::new('contactName'),
             // TextField::new('companyName'),
             // EmailField::new('contactEmail'),

@@ -45,6 +45,10 @@ class JobOffer
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
+    #[ORM\ManyToOne(inversedBy: 'jobOffers')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?JobCategory $category = null;
+
     public function __construct()
     {
         $this->createdAt = new DateTimeImmutable();
@@ -171,6 +175,18 @@ class JobOffer
     public function setDescription(string $description): static
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getCategory(): ?JobCategory
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?JobCategory $category): static
+    {
+        $this->category = $category;
 
         return $this;
     }
