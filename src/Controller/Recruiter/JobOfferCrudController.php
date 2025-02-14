@@ -5,8 +5,10 @@ namespace App\Controller\Recruiter;
 use App\Entity\JobOffer;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class JobOfferCrudController extends AbstractCrudController
@@ -21,7 +23,11 @@ class JobOfferCrudController extends AbstractCrudController
     {
         return [
             TextField::new('title'),
-            TextField::new('contactPhone'),
+            TextareaField::new('description'),
+            // TextField::new('contactName'),
+            // TextField::new('companyName'),
+            // EmailField::new('contactEmail'),
+            // TextField::new('contactPhone'),
         ];
     }
     
@@ -32,20 +38,13 @@ class JobOfferCrudController extends AbstractCrudController
         $user = $this->getUser();
 
         /** @var Recruiter */
-        $recruiter = $user->getRecruiter(); 
-        
-        $recruiter->setCompanyName('Garage404');
-        $entityInstance->setCompanyName($recruiter->getCompanyName());
+        $recruiter = $user->getRecruiter();
 
-        $recruiter->setCompanyEmail($user->getEmail());
-        $entityInstance->setContactEmail($recruiter->getCompanyEmail());
-
-        
-        $recruiter->setContactName('Jérémy');
-        $entityInstance->setContactName($recruiter->getContactName());
-        
+        $entityInstance->setContactEmail($user->getEmail());
         $entityInstance->setRecruiter($recruiter);
-        dd($entityInstance);
+        $entityInstance->setCompanyName($recruiter->getCompanyName());
+        $entityInstance->setContactName($recruiter->getContactName());
+        $entityInstance->setContactPhone($recruiter->getPhone());
 
         $entityManager->persist($entityInstance);
         $entityManager->flush();
