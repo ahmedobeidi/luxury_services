@@ -132,12 +132,12 @@ class JobOffer
         return $this;
     }
 
-    public function getStatus(): ?string
+    public function getStatus(): ?bool
     {
         return $this->status;
     }
 
-    public function setStatus(string $status): static
+    public function setStatus(bool $status): static
     {
         $this->status = $status;
 

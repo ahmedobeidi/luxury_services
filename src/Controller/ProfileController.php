@@ -6,6 +6,7 @@ use App\Entity\Candidate;
 use App\Entity\User;
 use App\Form\CandidateType;
 use App\Service\FileUploader;
+use App\Service\ProfileProgressionCalculator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +16,7 @@ use Symfony\Component\Routing\Attribute\Route;
 final class ProfileController extends AbstractController
 {
     #[Route('/profile', name: 'app_profile')]
-    public function index(EntityManagerInterface $entityManager, Request $request, FileUploader $fileUploader): Response
+    public function index(EntityManagerInterface $entityManager, Request $request, FileUploader $fileUploader, ProfileProgressionCalculator $profileProgressionCalculator): Response
     {
         /** @var User */
         $user = $this->getUser();
@@ -59,6 +60,8 @@ final class ProfileController extends AbstractController
                 $cvName = $fileUploader->upload($cvFile, $candidate, 'cvFile', 'cv_pictures');
                 $candidate->setCvFile($cvName);
             }
+
+            $profileProgressionCalculator->calculateProgress($candidate);
 
             $entityManager->persist($candidate);
             $entityManager->flush();
