@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\JobCategory;
 use App\Entity\JobOffer;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,17 +16,19 @@ final class JobController extends AbstractController
     public function index(EntityManagerInterface $entityManger): Response
     {
         $jobOffers = $entityManger->getRepository(JobOffer::class)->findAll();
+        $categories = $entityManger->getRepository(JobCategory::class)->findAll();
 
         return $this->render('job/index.html.twig', [
-            'jobOffers' => $jobOffers
+            'jobOffers' => $jobOffers,
+            'categories' => $categories
         ]);
     }
 
-    #[Route('/job/{slug}', name: 'app_job_show')]
-    public function show(): Response
+    #[Route('/job/{id}', name: 'app_job_show')]
+    public function show(JobOffer $jobOffer): Response
     {
         return $this->render('job/show.html.twig', [
-         
+            'jobOffer' => $jobOffer
         ]);
     }
 }
