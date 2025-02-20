@@ -118,7 +118,7 @@ $(handler);
 											<a href="{{ path('app_home') }}">Home</a>
 										</li>
 										<li>
-											<a href="{{ path('app_job') }}">Jobs Offers</a>
+											<a href="{{ path('app_jobs') }}">Jobs Offers</a>
 										</li>
 										<li>
 											<a href="{{ path('app_company') }}">About Us</a>
@@ -203,8 +203,8 @@ $(handler);
 										<span>Home</span>
 									</a>
 								</li>
-								<li class="{{ app.current_route is same as('app_job')  ? 'active' : '' }} dropdown">
-									<a target="_self" href="{{ path('app_job') }}">
+								<li class="{{ app.current_route is same as('app_jobs')  ? 'active' : '' }} dropdown">
+									<a target="_self" href="{{ path('app_jobs') }}">
 										<i class=""></i>
 										<span>Jobs offers</span>
 									</a>
@@ -296,7 +296,7 @@ $(handler);
 							</a>
 						</li>
 						<li class=" dropdown">
-							<a target="_self" href="{{ path('app_job') }}">
+							<a target="_self" href="{{ path('app_jobs') }}">
 								<span>Jobs offers</span>
 							</a>
 						</li>

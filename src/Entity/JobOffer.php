@@ -49,6 +49,12 @@ class JobOffer
     #[ORM\JoinColumn(nullable: false)]
     private ?JobCategory $category = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $salary = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $city = null;
+
     public function __construct()
     {
         $this->createdAt = new DateTimeImmutable();
@@ -187,6 +193,30 @@ class JobOffer
     public function setCategory(?JobCategory $category): static
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getSalary(): ?string
+    {
+        return $this->salary;
+    }
+
+    public function setSalary(string $salary): static
+    {
+        $this->salary = $salary;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(string $city): static
+    {
+        $this->city = $city;
 
         return $this;
     }
