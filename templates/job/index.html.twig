@@ -59,8 +59,12 @@
                                     <div class="card-action">
                                         <a class="btn btn-md primary border waves-effect waves-dark" href="{{ path('app_job_show', {'id': job.id}) }}">Details</a>
                                         {% if app.user %}
-                                            <a class="btn btn-md primary waves-effect waves-light"
-                                            href="{{ path('app_job_apply', {'id': job.id}) }}">Apply</a>
+                                            {% if job.id in appliedJobs %}
+                                                <button class="btn btn-md disabled">You Have Applied</button>
+                                            {% else %}
+                                                <a class="btn btn-md primary waves-effect waves-light"
+                                                href="{{ path('app_job_apply', {'id': job.id}) }}">Apply</a>
+                                            {% endif %}
                                         {% else %}
                                             <a class="btn btn-md primary waves-effect waves-light"
                                             href="{{ path('app_login') }}">Login to Apply</a>

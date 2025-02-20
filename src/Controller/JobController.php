@@ -15,16 +15,29 @@ use Symfony\Component\Routing\Attribute\Route;
 final class JobController extends AbstractController
 {
     #[Route('/jobs', name: 'app_jobs')]
-    public function index(EntityManagerInterface $entityManger): Response
-    {
-        $jobOffers = $entityManger->getRepository(JobOffer::class)->findAll();
-        $categories = $entityManger->getRepository(JobCategory::class)->findAll();
+public function index(EntityManagerInterface $entityManager): Response
+{
+    $jobOffers = $entityManager->getRepository(JobOffer::class)->findAll();
+    $categories = $entityManager->getRepository(JobCategory::class)->findAll();
+    $user = $this->getUser();
 
-        return $this->render('job/index.html.twig', [
-            'jobOffers' => $jobOffers,
-            'categories' => $categories
-        ]);
+    $appliedJobs = []; // Store applied job IDs
+
+    if ($user) {
+        $applications = $entityManager->getRepository(JobApplication::class)->findBy(['applicant' => $user]);
+
+        foreach ($applications as $application) {
+            $appliedJobs[] = $application->getJobOffer()->getId();
+        }
     }
+
+    return $this->render('job/index.html.twig', [
+        'jobOffers' => $jobOffers,
+        'categories' => $categories,
+        'appliedJobs' => $appliedJobs // Pass the applied job IDs to Twig
+    ]);
+}
+
 
     #[Route('/job/{id}', name: 'app_job_show')]
     public function show(JobOffer $jobOffer): Response
