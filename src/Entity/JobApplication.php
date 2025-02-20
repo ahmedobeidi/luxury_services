@@ -13,16 +13,21 @@ class JobApplication
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(targetEntity: JobOffer::class)]
     #[ORM\JoinColumn(nullable: false)]
     private ?JobOffer $jobOffer = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
+    private ?User $applicant = null; // Renamed from `user` to `applicant`
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
@@ -37,19 +42,17 @@ class JobApplication
     public function setJobOffer(?JobOffer $jobOffer): static
     {
         $this->jobOffer = $jobOffer;
-
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getApplicant(): ?User
     {
-        return $this->user;
+        return $this->applicant;
     }
 
-    public function setUser(User $user): static
+    public function setApplicant(User $applicant): static
     {
-        $this->user = $user;
-
+        $this->applicant = $applicant;
         return $this;
     }
 
@@ -61,7 +64,6 @@ class JobApplication
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
-
         return $this;
     }
 }

@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\JobApplication;
 use App\Entity\JobCategory;
 use App\Entity\JobOffer;
+use App\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -32,9 +34,35 @@ final class JobController extends AbstractController
         ]);
     }
 
-    // #[Route('/job/{id}/apply', name: 'app_job_apply')]
-    // public function apply(JobOffer $jobOffer)
-    // {
-    //     return $this->redirectToRoute('app_home');
-    // }
+    #[Route('/job/{id}/apply', name: 'app_job_apply')]
+    public function apply(JobOffer $jobOffer, EntityManagerInterface $entityManager)
+    {
+        /** @var User */
+        $user = $this->getUser();
+
+        // Check if the user has already applied for this job
+        $existingApplication = $entityManager->getRepository(JobApplication::class)->findOneBy([
+            'jobOffer' => $jobOffer,
+            'applicant' => $user
+        ]);
+
+        if ($existingApplication) {
+            $this->addFlash('warning', 'You have already applied for this job.');
+            return $this->redirectToRoute('app_jobs');
+        }
+
+        // Create new job application
+        $application = new JobApplication();
+        $application->setJobOffer($jobOffer);
+        $application->setApplicant($user);
+
+        $entityManager->persist($application);
+        $entityManager->flush();
+
+        // Flash message to confirm application submission
+        $this->addFlash('success', 'Your application has been submitted successfully!');
+
+        // Redirect to job listing or a confirmation page
+        return $this->redirectToRoute('app_jobs');
+    }
 }
