@@ -31,4 +31,10 @@ final class JobController extends AbstractController
             'jobOffer' => $jobOffer
         ]);
     }
+
+    // #[Route('/job/{id}/apply', name: 'app_job_apply')]
+    // public function apply(JobOffer $jobOffer)
+    // {
+    //     return $this->redirectToRoute('app_home');
+    // }
 }
