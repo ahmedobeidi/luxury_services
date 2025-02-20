@@ -5,6 +5,7 @@ namespace App\Controller\Recruiter;
 use App\Entity\JobCategory;
 use App\Entity\JobOffer;
 use App\Entity\Recruiter;
+use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -47,11 +48,21 @@ class RecruiterController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {   
+        /** @var User */
+        $user = $this->getUser();
+
+        $recruiter = $user->getRecruiter();
+
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('Edit Profile', 'fa fa-user', Recruiter::class);
         // ->setAction('edit');
         
-        yield MenuItem::section('Jobs');
-        yield MenuItem::linkToCrud('Offers', 'fas fa-user-tie', JobOffer::class);
+        if ($recruiter->getCompanyName() != "" || $recruiter->getContactName() != "" || $recruiter->getPhone() != "") {
+            yield MenuItem::section('Jobs');
+            yield MenuItem::linkToCrud('Offers', 'fa-solid fa-file', JobOffer::class);
+        }
+
+        yield MenuItem::section('Return Home');
+        yield MenuItem::linkToUrl('Home', 'fa fa-arrow-left', $this->generateUrl('app_home'));
     }
 }
