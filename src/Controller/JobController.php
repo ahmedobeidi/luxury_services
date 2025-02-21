@@ -56,9 +56,31 @@ final class JobController extends AbstractController
             }
         }
 
+        // Get the previous job offer
+    $previousJob = $entityManager->getRepository(JobOffer::class)
+    ->createQueryBuilder('j')
+    ->where('j.id < :currentId')
+    ->setParameter('currentId', $jobOffer->getId())
+    ->orderBy('j.id', 'DESC')
+    ->setMaxResults(1)
+    ->getQuery()
+    ->getOneOrNullResult();
+
+// Get the next job offer
+$nextJob = $entityManager->getRepository(JobOffer::class)
+    ->createQueryBuilder('j')
+    ->where('j.id > :currentId')
+    ->setParameter('currentId', $jobOffer->getId())
+    ->orderBy('j.id', 'ASC')
+    ->setMaxResults(1)
+    ->getQuery()
+    ->getOneOrNullResult();
+
         return $this->render('job/show.html.twig', [
             'jobOffer' => $jobOffer,
-            'hasApplied' => $hasApplied
+            'hasApplied' => $hasApplied,
+            'previousJob' => $previousJob,
+            'nextJob' => $nextJob
         ]);
     }
 
