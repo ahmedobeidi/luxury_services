@@ -21,6 +21,12 @@ final class ProfileController extends AbstractController
         /** @var User */
         $user = $this->getUser();
 
+        // Redirect if the user has ROLE_ADMIN or ROLE_RECRUITER
+        if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_RECRUITER', $user->getRoles()))) {
+            // $this->addFlash('warning', 'Access denied: Recruiters and Admins cannot access this page.');
+            return $this->redirectToRoute('app_home'); // Redirect to home or another page
+        }
+
         $candidate = $user->getCandidate();
 
         if(!$candidate){
