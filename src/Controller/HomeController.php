@@ -12,10 +12,12 @@ use Symfony\Component\Routing\Attribute\Route;
 final class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index(EntityManagerInterface $entityManger): Response
+    public function index(EntityManagerInterface $entityManager): Response
     {
-        $jobOffers = $entityManger->getRepository(JobOffer::class)->findAll();
-        $categories = $entityManger->getRepository(JobCategory::class)->findAll();
+        $jobOffers = $entityManager->getRepository(JobOffer::class)
+        ->findBy([], ['createdAt' => 'DESC'], 2); // Get only last 2 offers
+        
+        $categories = $entityManager->getRepository(JobCategory::class)->findAll();
 
         return $this->render('home/index.html.twig', [
             'jobOffers' => $jobOffers,
