@@ -15,35 +15,50 @@ use Symfony\Component\Routing\Attribute\Route;
 final class JobController extends AbstractController
 {
     #[Route('/jobs', name: 'app_jobs')]
-public function index(EntityManagerInterface $entityManager): Response
-{
-    $jobOffers = $entityManager->getRepository(JobOffer::class)->findAll();
-    $categories = $entityManager->getRepository(JobCategory::class)->findAll();
-    $user = $this->getUser();
+    public function index(EntityManagerInterface $entityManager): Response
+    {
+        $jobOffers = $entityManager->getRepository(JobOffer::class)->findAll();
+        $categories = $entityManager->getRepository(JobCategory::class)->findAll();
+        $user = $this->getUser();
 
-    $appliedJobs = []; // Store applied job IDs
+        $appliedJobs = []; // Store applied job IDs
 
-    if ($user) {
-        $applications = $entityManager->getRepository(JobApplication::class)->findBy(['applicant' => $user]);
+        if ($user) {
+            $applications = $entityManager->getRepository(JobApplication::class)->findBy(['applicant' => $user]);
 
-        foreach ($applications as $application) {
-            $appliedJobs[] = $application->getJobOffer()->getId();
+            foreach ($applications as $application) {
+                $appliedJobs[] = $application->getJobOffer()->getId();
+            }
         }
-    }
 
-    return $this->render('job/index.html.twig', [
-        'jobOffers' => $jobOffers,
-        'categories' => $categories,
-        'appliedJobs' => $appliedJobs // Pass the applied job IDs to Twig
-    ]);
-}
+        return $this->render('job/index.html.twig', [
+            'jobOffers' => $jobOffers,
+            'categories' => $categories,
+            'appliedJobs' => $appliedJobs // Pass the applied job IDs to Twig
+        ]);
+    }
 
 
     #[Route('/job/{id}', name: 'app_job_show')]
-    public function show(JobOffer $jobOffer): Response
+    public function show(JobOffer $jobOffer, EntityManagerInterface $entityManager): Response
     {
+        $user = $this->getUser();
+        $hasApplied = false;
+
+        if ($user) {
+            $existingApplication = $entityManager->getRepository(JobApplication::class)->findOneBy([
+                'jobOffer' => $jobOffer,
+                'applicant' => $user
+            ]);
+
+            if ($existingApplication) {
+                $hasApplied = true;
+            }
+        }
+
         return $this->render('job/show.html.twig', [
-            'jobOffer' => $jobOffer
+            'jobOffer' => $jobOffer,
+            'hasApplied' => $hasApplied
         ]);
     }
 
