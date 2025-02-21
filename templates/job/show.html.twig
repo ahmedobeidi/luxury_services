@@ -46,27 +46,16 @@
 							<li>
 								<span>
 									Pulished at
-								</span>24 May 18</li>
-							<li>
-								<span>
-									Position
-								</span>2nd Engineer</li>
-							<li>
-								<span>
-									Contract Type
-								</span>Full Time</li>
+								</span>{{ jobOffer.createdAt | date("d/m/Y") }}</li>
+							
 							<li>
 								<span>
 									Salary
-								</span>45k &euro;</li>
+								</span>{{ jobOffer.salary }}k &euro;</li>
 							<li>
 								<span>
 									Location
-								</span>Paris</li>
-							<li>
-								<span>
-									Starting date
-								</span>2018-05-18</li>
+								</span>{{ jobOffer.city }}</li>
 						</ul>
 						<a class="btn btn-block gradient primary mt-30 waves-effect waves-light" href="#!">Apply for this job</a>
 						<div class="btn btn-block btn-success mt-30 waves-effect waves-light disabled">You have applied for this job</div>
