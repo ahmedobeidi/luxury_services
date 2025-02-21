@@ -80,5 +80,8 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::section('Experience');
         yield MenuItem::linkToCrud('Experience', 'fas fa-user-tie', Experience::class);
+
+        yield MenuItem::section('Return Home');
+        yield MenuItem::linkToUrl('Home', 'fa fa-arrow-left', $this->generateUrl('app_home'));
     }
 }
